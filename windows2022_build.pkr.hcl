@@ -1,6 +1,6 @@
 # Variables
 variable "iso_url" {
-  default = "file:///Users/joellange/Desktop/ISOs/WindowsServer/en-us_windows_server_2022_updated_nov_2024_x64_dvd_4e34897c.iso"
+  default = "file:///iso/en-us_windows_server_2022_updated_nov_2024_x64_dvd_4e34897c.iso"
 }
 
 variable "iso_checksum" {
