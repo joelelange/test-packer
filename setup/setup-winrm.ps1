@@ -1,5 +1,5 @@
 # Set administrator password
-net user Administrator P@ssword12345
+net user Administrator packer
 wmic useraccount where "name='Administrator'" set PasswordExpires=FALSE
 
 # First, make sure WinRM can't be connected to
