@@ -47,7 +47,7 @@ source "qemu" "windows" {
   memory           = "4096"
   cpus             = "2"
   net_device     = "e1000e"  # not virtio-net, guess driver can't be loaded
-  disk_interface = "ide"  # not virtio-scsi or virtio as the virtio driver iso needs to loaded first!
+  disk_interface = "ide"  # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
   #qemuargs = [[ "-bios", "/usr/share/OVMF/OVMF_CODE._4Mfd" ]]  # this could be used if using UEFI!
   communicator   = "winrm"
   winrm_insecure = true
