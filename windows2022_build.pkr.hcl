@@ -1,10 +1,10 @@
 # Variables
 variable "iso_url" {
-  default = "file:///iso/en-us_windows_server_2022_updated_nov_2024_x64_dvd_4e34897c.iso"
+  default = "file:///Users/joellange/Desktop/ISOs/WindowsServer/SERVER_EVAL_x64FRE_en-us"
 }
 
 variable "iso_checksum" {
-  default = "md5:3bd18e3853e33fdf1f857dc83bfd61e4"
+  default = "md5:e7908933449613edc97e1b11180429d1"
 }
 
 variable "iso_checksum_type" {
@@ -20,7 +20,7 @@ variable "output_directory" {
 }
 
 variable "virtio_iso_path" {
-  default = "file:///iso/virtio-win-0.1.229.iso"
+  default = "file:///Users/joellange/Desktop/ISOs/virtio-win-0.1.229.iso"
 }
 
 packer {
@@ -40,20 +40,21 @@ source "qemu" "windows" {
   output_directory = var.output_directory
   machine_type     = "q35"
   disk_size        = "40960" # Size in MB, adjust as needed format = "qcow2"
-  accelerator      = "kvm"   # Use "none" if KVM is not available
-  vm_name          = "win2022image"
+  accelerator      = "none"   # Use "none" if KVM is not available
+  vm_name          = "packer-win2022"
   format           = var.qemu_format
+  headless         = true # Set to false if you want a graphical console
   memory           = "4096"
   cpus             = "2"
-  #net_device     = "virtio-net"
-  disk_interface = "virtio-scsi"
+  net_device     = "virtio-net"
+  disk_interface = "virtio"
   #qemuargs = [[ "-bios", "/usr/share/OVMF/OVMF_CODE.fd" ]]
   #qemuargs       = [["-cdrom", "{{user `virtio_iso_path`}}"]]
-   qemuargs = [
-    ["-drive", "file=${var.output_directory}/{{ .Name }},if=none,cache=writeback,discard=ignore,format=${var.qemu_format},id=drive0,index=1"],
-    ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
-    ["-drive", "file=${var.virtio_iso_path},media=cdrom,index=3"],
-  ]
+ #  qemuargs = [
+ #   ["-drive", "file=${var.output_directory}/{{ .Name }},if=none,cache=writeback,discard=ignore,format=${var.qemu_format},id=drive0,index=1"],
+ #   ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
+ #   ["-drive", "file=${var.virtio_iso_path},media=cdrom,index=3"],
+ #]
   communicator   = "winrm"
   winrm_insecure = true
   winrm_use_ssl  = true
@@ -62,7 +63,7 @@ source "qemu" "windows" {
   winrm_username = "Administrator"
   floppy_files   = ["scripts/autounattend.xml"]
   boot_command = ["<spacebar>"]
-  boot_wait      = "5s"
+  boot_wait      = "25s"
   #boot_wait      = "35s"
   #boot_command = ["<tab><tab><tab><wait1s><enter>", "/install/windows/setup.exe <wait5s>", "<tab><tab><tab><enter><wait2s>", "<down><enter><wait2s>",
   # "<spacebar><enter><wait2s>", "<down><enter><wait2s>", "<tab><tab><enter><wait2s>", "<tab><tab><enter><wait2s>",
@@ -71,7 +72,6 @@ source "qemu" "windows" {
   # "<down><down><down><down><down><right><wait2s>", "<down><enter><wait2s>", "<enter><wait12s>", "<tab><tab><tab><tab><wait2s>", "<enter>"
   #]
   shutdown_command = "shutdown /s /t 0"
-  headless         = false # Set to false if you want a graphical console
 }
 
 # Build block to execute the source
