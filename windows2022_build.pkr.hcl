@@ -1,6 +1,6 @@
 # Variables
 variable "iso_url" {
-  default = "file:///Users/joellange/Desktop/ISOs/WindowsServer/SERVER_EVAL_x64FRE_en-us"
+  default = "file:///Users/joellange/Desktop/ISOs/WindowsServer/SERVER_EVAL_x64FRE_en-us.iso"
 }
 
 variable "iso_checksum" {
