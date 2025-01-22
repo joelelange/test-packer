@@ -46,15 +46,9 @@ source "qemu" "windows" {
   headless         = true # Set to false if you want a graphical console
   memory           = "4096"
   cpus             = "2"
-  net_device     = "virtio-net"
-  disk_interface = "virtio"
-  #qemuargs = [[ "-bios", "/usr/share/OVMF/OVMF_CODE.fd" ]]
-  #qemuargs       = [["-cdrom", "{{user `virtio_iso_path`}}"]]
- #  qemuargs = [
- #   ["-drive", "file=${var.output_directory}/{{ .Name }},if=none,cache=writeback,discard=ignore,format=${var.qemu_format},id=drive0,index=1"],
- #   ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
- #   ["-drive", "file=${var.virtio_iso_path},media=cdrom,index=3"],
- #]
+  net_device     = "e1000e"  # not virtio-net, guess driver can't be loaded
+  disk_interface = "ide"  # not virtio-scsi or virtio as the virtio driver iso needs to loaded first!
+  #qemuargs = [[ "-bios", "/usr/share/OVMF/OVMF_CODE._4Mfd" ]]  # this could be used if using UEFI!
   communicator   = "winrm"
   winrm_insecure = true
   winrm_use_ssl  = true
@@ -63,7 +57,7 @@ source "qemu" "windows" {
   winrm_username = "Administrator"
   floppy_files   = ["scripts/autounattend.xml"]
   boot_command = ["<spacebar>"]
-  boot_wait      = "25s"
+  boot_wait      = "120s"
   #boot_wait      = "35s"
   #boot_command = ["<tab><tab><tab><wait1s><enter>", "/install/windows/setup.exe <wait5s>", "<tab><tab><tab><enter><wait2s>", "<down><enter><wait2s>",
   # "<spacebar><enter><wait2s>", "<down><enter><wait2s>", "<tab><tab><enter><wait2s>", "<tab><tab><enter><wait2s>",
