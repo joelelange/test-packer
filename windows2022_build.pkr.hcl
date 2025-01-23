@@ -36,14 +36,13 @@ packer {
 source "qemu" "windows" {
   iso_url      = var.iso_url
   iso_checksum = var.iso_checksum
-  # iso_checksum_type = var.iso_checksum_type
   output_directory = var.output_directory
   machine_type     = "q35"
   disk_size        = "40960" # Size in MB, adjust as needed format = "qcow2"
   accelerator      = "none"   # Use "none" if KVM is not available
   vm_name          = "packer-win2022"
   format           = var.qemu_format
-  headless         = true # Set to false if you want a graphical console
+  headless         = false # Set to false if you want a graphical console
   memory           = "4096"
   cpus             = "2"
   net_device     = "e1000e"  # not virtio-net, guess driver can't be loaded
@@ -94,7 +93,7 @@ build {
   }
 
   provisioner "powershell" {
-    source = "scripts/Enable-RDP.ps1"
+    scripts = "scripts/Enable-RDP.ps1"
   }
 
   provisioner "powershell" {
