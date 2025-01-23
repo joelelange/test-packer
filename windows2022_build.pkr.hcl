@@ -93,7 +93,7 @@ build {
   }
 
   provisioner "powershell" {
-    scripts = "scripts/Enable-RDP.ps1"
+    scripts = ["scripts/Enable-RDP.ps1"]
   }
 
   provisioner "powershell" {
