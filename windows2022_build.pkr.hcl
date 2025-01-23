@@ -94,6 +94,10 @@ build {
   }
 
   provisioner "powershell" {
+    source = "scripts/Enable-RDP.ps1"
+  }
+
+  provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
   }
 
