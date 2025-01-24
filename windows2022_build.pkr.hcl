@@ -56,7 +56,7 @@ source "qemu" "windows" {
   winrm_username = "Administrator"
   floppy_files   = ["scripts/autounattend.xml"]
   boot_command = ["<spacebar>"]
-  boot_wait      = "120s"
+  boot_wait      = "4m30s"
   #boot_wait      = "35s"
   #boot_command = ["<tab><tab><tab><wait1s><enter>", "/install/windows/setup.exe <wait5s>", "<tab><tab><tab><enter><wait2s>", "<down><enter><wait2s>",
   # "<spacebar><enter><wait2s>", "<down><enter><wait2s>", "<tab><tab><enter><wait2s>", "<tab><tab><enter><wait2s>",
