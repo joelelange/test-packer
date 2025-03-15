@@ -26,7 +26,8 @@ variable "virtio_iso_path" {
 packer {
   required_plugins {
     qemu = {
-      version = "~> 1"
+      #version = "~> 1"
+      version = "1.1.1"
       source  = "github.com/hashicorp/qemu"
     }
   }
@@ -34,36 +35,29 @@ packer {
 
 # Source block for QEMU builder
 source "qemu" "windows" {
-  iso_url      = var.iso_url
-  iso_checksum = var.iso_checksum
+  iso_url          = var.iso_url
+  iso_checksum     = var.iso_checksum
   output_directory = var.output_directory
   machine_type     = "q35"
   disk_size        = "40960" # Size in MB, adjust as needed format = "qcow2"
-  accelerator      = "none"   # Use "none" if KVM is not available
+  accelerator      = "hvf"   # Using hvf for MacOS since KVM is not available
   vm_name          = "packer-win2022"
   format           = var.qemu_format
-  headless         = false # Set to false if you want a graphical console
+  headless         = false # Set to false if you want a graphical console NEEDED TO INSTALL RVNC
   memory           = "4096"
   cpus             = "2"
-  net_device     = "e1000e"  # not virtio-net, guess driver can't be loaded
-  disk_interface = "ide"  # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
-  #qemuargs = [[ "-bios", "/usr/share/OVMF/OVMF_CODE_4M.fd" ]]  # this could be used if using UEFI!
-  communicator   = "winrm"
-  winrm_insecure = true
-  winrm_use_ssl  = true
-  winrm_timeout  = "1h"
-  winrm_password = "packer"
-  winrm_username = "Administrator"
-  floppy_files   = ["scripts/autounattend.xml"]
-  boot_command = ["<spacebar>"]
-  boot_wait      = "4m30s"
-  #boot_wait      = "35s"
-  #boot_command = ["<tab><tab><tab><wait1s><enter>", "/install/windows/setup.exe <wait5s>", "<tab><tab><tab><enter><wait2s>", "<down><enter><wait2s>",
-  # "<spacebar><enter><wait2s>", "<down><enter><wait2s>", "<tab><tab><enter><wait2s>", "<tab><tab><enter><wait2s>",
-  # "<down><down><down><down><down><down><down><down><down><down><wait2s>", "<right><wait2s>",
-  # "<down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><down><right><wait2s>",
-  # "<down><down><down><down><down><right><wait2s>", "<down><enter><wait2s>", "<enter><wait12s>", "<tab><tab><tab><tab><wait2s>", "<enter>"
-  #]
+  net_device       = "e1000e" # not virtio-net, guess driver can't be loaded
+  disk_interface   = "ide"    # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
+  qemuargs         = [["-display", "none"]]
+  communicator     = "winrm"
+  winrm_insecure   = true
+  winrm_use_ssl    = true
+  winrm_timeout    = "1h"
+  winrm_password   = "packer"
+  winrm_username   = "Administrator"
+  floppy_files     = ["scripts/autounattend.xml"]
+  boot_command     = ["<spacebar>"]
+  boot_wait        = "4m30s"
   shutdown_command = "shutdown /s /t 0"
 }
 
@@ -92,9 +86,9 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
-  provisioner "powershell" {
-    scripts = ["scripts/Enable-RDP.ps1"]
-  }
+  # provisioner "powershell" {
+  #   scripts = ["scripts/Enable-RDP.ps1"]
+  # }
 
   provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
