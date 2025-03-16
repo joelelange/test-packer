@@ -20,7 +20,7 @@ variable "output_directory" {
 }
 
 variable "virtio_iso_path" {
-  default = "file:///Users/joellange/Desktop/ISOs/virtio-win-0.1.229.iso"
+  default = "file:///Users/joellange/Desktop/ISOs/virtio-win-0.1.266.iso"
 }
 
 packer {
@@ -43,12 +43,12 @@ source "qemu" "windows" {
   accelerator      = "hvf"   # Using hvf for MacOS since KVM is not available
   vm_name          = "packer-win2022"
   format           = var.qemu_format
-  headless         = false # Set to false if you want a graphical console NEEDED TO INSTALL RVNC
+  headless         = false # Set to false if you want a graphical console
   memory           = "4096"
   cpus             = "2"
   net_device       = "e1000e" # not virtio-net, guess driver can't be loaded
   disk_interface   = "ide"    # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
-  qemuargs         = [["-display", "none"]]
+  qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
   communicator     = "winrm"
   winrm_insecure   = true
   winrm_use_ssl    = true
@@ -57,7 +57,7 @@ source "qemu" "windows" {
   winrm_username   = "Administrator"
   floppy_files     = ["scripts/autounattend.xml"]
   boot_command     = ["<spacebar>"]
-  boot_wait        = "4m30s"
+  boot_wait        = "6m"
   shutdown_command = "shutdown /s /t 0"
 }
 
@@ -86,9 +86,9 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
-  # provisioner "powershell" {
-  #   scripts = ["scripts/Enable-RDP.ps1"]
-  # }
+  provisioner "powershell" {
+    scripts = ["scripts/Enable-RDP.ps1"]
+  }
 
   provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
