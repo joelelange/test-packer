@@ -91,6 +91,10 @@ build {
   }
 
   provisioner "powershell" {
+    scripts = ["scripts/InstallOpenSSH.ps1"]
+  }
+
+  provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
   }
 
