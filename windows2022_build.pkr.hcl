@@ -57,7 +57,7 @@ source "qemu" "windows" {
   winrm_username   = "Administrator"
   floppy_files     = ["scripts/autounattend.xml"]
   boot_command     = ["<spacebar>"]
-  boot_wait        = "6m"
+  boot_wait        = "5m30s"
   shutdown_command = "shutdown /s /t 0"
 }
 
@@ -86,13 +86,18 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
+  provisioner "file" {
+    source      = "scripts/InstallOpenSSH.ps1"
+    destination = "C:/Windows/Setup/Scripts/InstallOpenSSH.ps1"
+  }
+  
   provisioner "powershell" {
     scripts = ["scripts/Enable-RDP.ps1"]
   }
 
-  provisioner "powershell" {
-    scripts = ["scripts/InstallOpenSSH.ps1"]
-  }
+  # provisioner "powershell" {
+  #   scripts = ["scripts/InstallOpenSSH.ps1"]
+  # }
 
   provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
