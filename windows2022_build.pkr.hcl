@@ -86,18 +86,15 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
-  provisioner "file" {
-    source      = "scripts/InstallOpenSSH.ps1"
-    destination = "C:/Windows/Setup/Scripts/InstallOpenSSH.ps1"
-  }
-  
   provisioner "powershell" {
     scripts = ["scripts/Enable-RDP.ps1"]
   }
 
-  # provisioner "powershell" {
-  #   scripts = ["scripts/InstallOpenSSH.ps1"]
-  # }
+  provisioner "powershell" {
+    elevated_user = "Administrator"
+    elevated_password = build.Password
+    scripts = ["scripts/InstallOpenSSH.ps1"]
+  }
 
   provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
@@ -113,10 +110,14 @@ build {
 
   provisioner "windows-restart" {
     restart_timeout = "30m"
+  }
+
+  provisioner "windows-shell" {
+    inline = ["C:/Windows/Setup/Scripts/SetupComplete.cmd"]
   }
 
   provisioner "powershell" {
     pause_before = "1m0s"
-    scripts      = ["scripts/cleanup.ps1"]
+    scripts = ["scripts/cleanup.ps1"]
   }
 }
