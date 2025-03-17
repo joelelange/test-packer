@@ -46,8 +46,8 @@ source "qemu" "windows" {
   headless         = false # Set to false if you want a graphical console
   memory           = "4096"
   cpus             = "2"
-  net_device       = "e1000e" # not virtio-net, guess driver can't be loaded
-  disk_interface   = "ide"    # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
+  net_device       = "e1000e"                # not virtio-net, guess driver can't be loaded
+  disk_interface   = "ide"                   # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
   qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
   communicator     = "winrm"
   winrm_insecure   = true
@@ -91,9 +91,9 @@ build {
   }
 
   provisioner "powershell" {
-    elevated_user = "Administrator"
+    elevated_user     = "Administrator"
     elevated_password = build.Password
-    scripts = ["scripts/InstallOpenSSH.ps1"]
+    scripts           = ["scripts/InstallOpenSSH.ps1"]
   }
 
   provisioner "powershell" {
@@ -118,6 +118,6 @@ build {
 
   provisioner "powershell" {
     pause_before = "1m0s"
-    scripts = ["scripts/cleanup.ps1"]
+    scripts      = ["scripts/cleanup.ps1"]
   }
 }
