@@ -42,7 +42,7 @@ source "qemu" "windows" {
   disk_size        = "40960"                 # Size in MB, adjust as needed format = "qcow2"
   floppy_files     = ["scripts/autounattend.xml"]
   format           = var.qemu_format
-  headless         = false                   # Set to false if you want a graphical console
+  headless         = true                   # Set to false if you want a graphical console
   iso_url          = var.iso_url
   iso_checksum     = var.iso_checksum
   machine_type     = "q35"
@@ -50,6 +50,7 @@ source "qemu" "windows" {
   net_device       = "e1000e"                # not virtio-net, guess driver can't be loaded
   output_directory = var.output_directory
   qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
+  qemuargs         = [["-display", "none"]]
   vm_name          = "packer-win2022"
   winrm_insecure   = true
   winrm_use_ssl    = true
