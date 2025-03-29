@@ -37,7 +37,7 @@ packer {
 source "qemu" "windows" {
   accelerator      = "hvf"                   # Using hvf for MacOS since KVM is not available
   communicator     = "winrm"
-  cpus             = "2"
+  cpus             = "4"
   disk_interface   = "ide"                   # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
   disk_size        = "40960"                 # Size in MB, adjust as needed format = "qcow2"
   floppy_files     = ["scripts/autounattend.xml"]
@@ -46,7 +46,7 @@ source "qemu" "windows" {
   iso_url          = var.iso_url
   iso_checksum     = var.iso_checksum
   machine_type     = "q35"
-  memory           = "4096"
+  memory           = "8192"
   net_device       = "e1000e"                # not virtio-net, guess driver can't be loaded
   output_directory = var.output_directory
   qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
