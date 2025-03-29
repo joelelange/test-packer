@@ -86,15 +86,15 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
-  provisioner "powershell" {
-    scripts = ["scripts/Enable-RDP.ps1"]
-  }
+  # provisioner "powershell" {
+  #   scripts = ["scripts/Enable-RDP.ps1"]
+  # }
 
-  provisioner "powershell" {
-    elevated_user     = "Administrator"
-    elevated_password = build.Password
-    scripts           = ["scripts/InstallOpenSSH.ps1"]
-  }
+  # provisioner "powershell" {
+  #   elevated_user     = "Administrator"
+  #   elevated_password = build.Password
+  #   scripts           = ["scripts/InstallOpenSSH.ps1"]
+  # }
 
   provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
@@ -111,6 +111,16 @@ build {
   # provisioner "windows-restart" {
   #   restart_timeout = "30m"
   # }
+
+  provisioner "powershell" {
+    scripts = ["scripts/Enable-RDP.ps1"]
+  }
+
+  provisioner "powershell" {
+    elevated_user     = "Administrator"
+    elevated_password = build.Password
+    scripts           = ["scripts/InstallOpenSSH.ps1"]
+  }
 
   provisioner "windows-shell" {
     inline = ["C:/Windows/Setup/Scripts/SetupComplete.cmd"]
