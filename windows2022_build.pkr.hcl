@@ -57,7 +57,7 @@ source "qemu" "windows" {
   winrm_username   = "Administrator"
   floppy_files     = ["scripts/autounattend.xml"]
   boot_command     = ["<spacebar>"]
-  boot_wait        = "5m30s"
+  boot_wait        = "6m10s"
   shutdown_command = "shutdown /s /t 0"
 }
 
