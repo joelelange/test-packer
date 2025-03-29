@@ -49,7 +49,7 @@ source "qemu" "windows" {
   memory           = "8192"
   net_device       = "e1000e"                # not virtio-net, guess driver can't be loaded
   output_directory = var.output_directory
-  qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
+  #qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
   qemuargs         = [["-display", "none"]]
   vm_name          = "packer-win2022"
   winrm_insecure   = true
