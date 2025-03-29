@@ -90,11 +90,11 @@ build {
     scripts = ["scripts/Enable-RDP.ps1"]
   }
 
-  # provisioner "powershell" {
-  #   elevated_user     = "Administrator"
-  #   elevated_password = build.Password
-  #   scripts           = ["scripts/InstallOpenSSH.ps1"]
-  # }
+  provisioner "powershell" {
+    elevated_user     = "Administrator"
+    elevated_password = build.Password
+    scripts           = ["scripts/InstallOpenSSH.ps1"]
+  }
 
   provisioner "powershell" {
     scripts = ["scripts/install-windows-updates.ps1"]
