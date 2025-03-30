@@ -87,10 +87,10 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
-  provisioner "file" {
-    source      = "./Microsoft.PackageManagement.NuGetProvider.dll"
-    destination = "C:/Program Files/PackageManagement/ProviderAssemblies/nuget/2.8.5.208/Microsoft.PackageManagement.NuGetProvider.dll"
-  }
+  # provisioner "file" {
+  #   source      = "./Microsoft.PackageManagement.NuGetProvider.dll"
+  #   destination = "C:/Program Files/PackageManagement/ProviderAssemblies/nuget/2.8.5.208/Microsoft.PackageManagement.NuGetProvider.dll"
+  # }
 
   # provisioner "powershell" {
   #   scripts = ["scripts/Enable-RDP.ps1"]
