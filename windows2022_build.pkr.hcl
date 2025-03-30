@@ -19,10 +19,6 @@ variable "output_directory" {
   default = "output-windows-qcow2"
 }
 
-# variable "virtio_iso_path" {
-#   default = "file:///Users/joellange/Desktop/ISOs/virtio-win-0.1.266.iso"
-# }
-
 packer {
   required_plugins {
     qemu = {
@@ -44,7 +40,7 @@ source "qemu" "windows" {
   disk_size        = "40960"                 # Size in MB, adjust as needed format = "qcow2"
   floppy_files     = ["scripts/autounattend.xml"]
   format           = var.qemu_format
-  headless         = false                    # Set to false if you want a graphical console
+  headless         = false                   # Set to false if you want a graphical console
   http_directory   = "/Users/joellange/local/apps"
   http_port_min    = "8801"
   http_port_max    = "8801"
@@ -52,10 +48,10 @@ source "qemu" "windows" {
   iso_checksum     = var.iso_checksum
   machine_type     = "q35"
   memory           = "8192"
-  net_device       = "e1000e"                 # not virtio-net, guess driver can't be loaded
+  net_device       = "e1000e"                # not virtio-net, guess driver can't be loaded
   output_directory = var.output_directory
-  qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
-  #qemuargs         = [["-display", "none"]]
+  #qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
+  qemuargs         = [["-display", "none"]]
   vm_name          = "packer-win2022"
   winrm_insecure   = true
   winrm_use_ssl    = true
