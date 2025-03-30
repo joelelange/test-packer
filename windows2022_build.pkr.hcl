@@ -106,23 +106,13 @@ build {
   #   inline = ["Invoke-WebRequest http://172.16.1.165:8801/ProPlus2024Retail.zip -Outfile C:/Windows/Setup/Scripts/ProPlus2024Retail.zip"]
   # }
 
-  # provisioner "powershell" {
-  #   scripts = ["scripts/Enable-RDP.ps1"]
-  # }
+  provisioner "powershell" {
+    scripts = ["scripts/install-windows-updates.ps1"]
+  }
 
-  # provisioner "powershell" {
-  #   elevated_user     = "Administrator"
-  #   elevated_password = build.Password
-  #   scripts           = ["scripts/InstallOpenSSH.ps1"]
-  # }
-
-  # provisioner "powershell" {
-  #   scripts = ["scripts/install-windows-updates.ps1"]
-  # }
-
-  # provisioner "windows-restart" {
-  #   restart_timeout = "30m"
-  # }
+  provisioner "windows-restart" {
+    restart_timeout = "30m"
+  }
 
   # provisioner "powershell" {
   #   scripts = ["scripts/install-windows-updates.ps1"]
@@ -132,15 +122,15 @@ build {
   #   restart_timeout = "30m"
   # }
 
-  # provisioner "powershell" {
-  #   scripts = ["scripts/Enable-RDP.ps1"]
-  # }
+  provisioner "powershell" {
+    scripts = ["scripts/Enable-RDP.ps1"]
+  }
 
-  # provisioner "powershell" {
-  #   elevated_user     = "Administrator"
-  #   elevated_password = build.Password
-  #   scripts           = ["scripts/InstallOpenSSH.ps1"]
-  # }
+  provisioner "powershell" {
+    elevated_user     = "Administrator"
+    elevated_password = build.Password
+    scripts           = ["scripts/InstallOpenSSH.ps1"]
+  }
 
   provisioner "powershell" {
     scripts = ["scripts/InstallChrome.ps1"]
