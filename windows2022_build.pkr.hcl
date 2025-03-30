@@ -87,6 +87,11 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
+  provisioner "file" {
+    source      = "./Microsoft.PackageManagement.NuGetProvider.dll"
+    destination = "C:/Program Files/PackageManagement/ProviderAssemblies/nuget/2.8.5.208/Microsoft.PackageManagement.NuGetProvider.dll"
+  }
+
   # provisioner "powershell" {
   #   scripts = ["scripts/Enable-RDP.ps1"]
   # }
@@ -97,13 +102,13 @@ build {
   #   scripts           = ["scripts/InstallOpenSSH.ps1"]
   # }
 
-  provisioner "powershell" {
-    scripts = ["scripts/install-windows-updates.ps1"]
-  }
+  # provisioner "powershell" {
+  #   scripts = ["scripts/install-windows-updates.ps1"]
+  # }
 
-  provisioner "windows-restart" {
-    restart_timeout = "30m"
-  }
+  # provisioner "windows-restart" {
+  #   restart_timeout = "30m"
+  # }
 
   # provisioner "powershell" {
   #   scripts = ["scripts/install-windows-updates.ps1"]
@@ -113,9 +118,9 @@ build {
   #   restart_timeout = "30m"
   # }
 
-  provisioner "powershell" {
-    scripts = ["scripts/Enable-RDP.ps1"]
-  }
+  # provisioner "powershell" {
+  #   scripts = ["scripts/Enable-RDP.ps1"]
+  # }
 
   provisioner "powershell" {
     elevated_user     = "Administrator"
