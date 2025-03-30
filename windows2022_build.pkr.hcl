@@ -42,12 +42,15 @@ source "qemu" "windows" {
   disk_size        = "40960"                 # Size in MB, adjust as needed format = "qcow2"
   floppy_files     = ["scripts/autounattend.xml"]
   format           = var.qemu_format
-  headless         = true                   # Set to false if you want a graphical console
+  headless         = true                    # Set to false if you want a graphical console
+  http_directory   = "/Users/joellange/local/apps"
+  http_port_min    = "8801"
+  http_port_max    = "8801"
   iso_url          = var.iso_url
   iso_checksum     = var.iso_checksum
   machine_type     = "q35"
   memory           = "8192"
-  net_device       = "e1000e"                # not virtio-net, guess driver can't be loaded
+  net_device       = "e1000e"                 # not virtio-net, guess driver can't be loaded
   output_directory = var.output_directory
   #qemuargs         = [["-display", "cocoa"]] # This enables qemu-system-x86_64's builtin viewer popup!
   qemuargs         = [["-display", "none"]]
@@ -87,9 +90,20 @@ build {
     destination = "C:/Windows/Setup/Scripts/SetupComplete.cmd"
   }
 
-  # provisioner "file" {
-  #   source      = "./Microsoft.PackageManagement.NuGetProvider.dll"
-  #   destination = "C:/Program Files/PackageManagement/ProviderAssemblies/nuget/2.8.5.208/Microsoft.PackageManagement.NuGetProvider.dll"
+  provisioner "powershell" {
+    inline = ["Invoke-WebRequest http://172.16.1.165:8801/GoogleChromeSE_131.msi -Outfile C:/Windows/Setup/Scripts/GoogleChromeSE_131.msi"]
+  }
+
+  provisioner "powershell" {
+    inline = ["Invoke-WebRequest http://172.16.1.165:8801/OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab -Outfile C:/Windows/Setup/Scripts/OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab"]
+  }
+
+  provisioner "powershell" {
+    inline = ["Invoke-WebRequest http://172.16.1.165:8801/OpenSSH-Server-Package~31bf3856ad364e35~amd64~~.cab -Outfile C:/Windows/Setup/Scripts/OpenSSH-Server-Package~31bf3856ad364e35~amd64~~.cab"]
+  }
+
+  # provisioner "powershell" {
+  #   inline = ["Invoke-WebRequest http://172.16.1.165:8801/ProPlus2024Retail.zip -Outfile C:/Windows/Setup/Scripts/ProPlus2024Retail.zip"]
   # }
 
   # provisioner "powershell" {
@@ -122,10 +136,14 @@ build {
   #   scripts = ["scripts/Enable-RDP.ps1"]
   # }
 
+  # provisioner "powershell" {
+  #   elevated_user     = "Administrator"
+  #   elevated_password = build.Password
+  #   scripts           = ["scripts/InstallOpenSSH.ps1"]
+  # }
+
   provisioner "powershell" {
-    elevated_user     = "Administrator"
-    elevated_password = build.Password
-    scripts           = ["scripts/InstallOpenSSH.ps1"]
+    scripts = ["scripts/InstallChrome.ps1"]
   }
 
   provisioner "windows-shell" {
