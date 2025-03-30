@@ -19,9 +19,9 @@ variable "output_directory" {
   default = "output-windows-qcow2"
 }
 
-variable "virtio_iso_path" {
-  default = "file:///Users/joellange/Desktop/ISOs/virtio-win-0.1.266.iso"
-}
+# variable "virtio_iso_path" {
+#   default = "file:///Users/joellange/Desktop/ISOs/virtio-win-0.1.266.iso"
+# }
 
 packer {
   required_plugins {
@@ -36,6 +36,8 @@ packer {
 # Source block for QEMU builder
 source "qemu" "windows" {
   accelerator      = "hvf"                   # Using hvf for MacOS since KVM is not available
+  cd_files         = ["/Users/joellange/local/apps/virtio-win-guest-tools.exe"]
+  cd_label         = "virtio_drivers"
   communicator     = "winrm"
   cpus             = "4"
   disk_interface   = "ide"                   # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
