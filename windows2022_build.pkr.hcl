@@ -40,7 +40,7 @@ source "qemu" "windows" {
   cd_label         = "virtio_drivers"
   communicator     = "winrm"
   cpus             = "4"
-  disk_interface   = "virtio"                   # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
+  disk_interface   = "ide"                   # not virtio-scsi or virtio as the virtio driver iso needs to be loaded first!
   disk_size        = "40960"                 # Size in MB, adjust as needed format = "qcow2"
   floppy_files     = ["scripts/autounattend.xml"]
   format           = var.qemu_format
